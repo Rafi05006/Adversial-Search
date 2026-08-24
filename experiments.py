@@ -49,7 +49,12 @@ def play_game(p0={"method": "alpha_beta", "depth": 3, "heuristic": heuristics.he
         position, extra_turn, captured = game.make_move(player, move)
         move_count += 1
         if verbose:
-            print(f"P{player} pit {move} -> last pos {position}, extra {extra_turn}, cap {captured}")
+            print(f"P{player} pit {move} -> last pos {position}, extra {extra_turn}, cap {captured} board {game.board}")
+       
+        if game.is_game_over():
+            if verbose:
+                print(f"Game ends after P{player} move: one side empty, remaining will be collected.")
+            break
         if not extra_turn:
             player = 1 - player
     winner = game.get_winner()

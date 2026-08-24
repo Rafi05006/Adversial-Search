@@ -1,7 +1,3 @@
-"""
-Adversarial Search - Mancala - Assignment 3 Experiment Harness
-"""
-
 import inspect
 import sys
 import os
