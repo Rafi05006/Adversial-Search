@@ -38,12 +38,20 @@ def move_list(game, player, heuristic, use_ordering, ai_player=None, descending=
         return ordered_moves(game, player, heuristic, ai_player=ai_player, descending=descending)
     return game.legal_moves(player)
 
+def terminal_value(game, ai_player, heuristic):
+    #Evaluate board. If game over, collect remaining stones first
+    if game.is_game_over():
+        tmp = game.copy()
+        tmp.collect_remaining_stones()
+        return heuristic(tmp, ai_player)
+    return heuristic(game, ai_player)
+
 def minimax(game, depth, ai_player, maximizing_player, heuristic=heuristic_1, move_ordering=False):
     global nodes_searched
     nodes_searched += 1
     
     if depth == 0 or game.is_game_over():
-        return heuristic(game, ai_player), None
+        return terminal_value(game, ai_player, heuristic), None
         
     # ordering: if move_ordering, order by heuristic from ai perspective
     legal_moves = move_list(game, maximizing_player, heuristic, move_ordering,
@@ -51,7 +59,7 @@ def minimax(game, depth, ai_player, maximizing_player, heuristic=heuristic_1, mo
                             descending=(maximizing_player == ai_player))
         
     if not legal_moves:
-        return heuristic(game, ai_player), None
+        return terminal_value(game, ai_player, heuristic), None
     
     if maximizing_player == ai_player:
         best_value = float('-inf')
@@ -98,14 +106,14 @@ def minimax_alpha_beta(game, depth, alpha, beta, player, ai_player, heuristic=he
     nodes_searched += 1
     
     if depth == 0 or game.is_game_over():
-        return heuristic(game, ai_player), None
+        return terminal_value(game, ai_player, heuristic), None
     
     legal_moves = move_list(game, player, heuristic, move_ordering,
                             ai_player=ai_player,
                             descending=(player == ai_player))
     
     if not legal_moves:
-        return heuristic(game, ai_player), None
+        return terminal_value(game, ai_player, heuristic), None
     
     if player == ai_player:
         best_value = float('-inf')
@@ -180,7 +188,7 @@ def ids_search(game, depth, ai_player, player, heuristic, first_moves, move_orde
     nodes_searched += 1
     
     if depth == 0 or game.is_game_over():
-        return heuristic(game, ai_player), None
+        return terminal_value(game, ai_player, heuristic), None
     
     # Determine move list: root may have pre-ordered first_moves
     if first_moves is not None:
@@ -192,7 +200,7 @@ def ids_search(game, depth, ai_player, player, heuristic, first_moves, move_orde
             legal_moves = game.legal_moves(player)
 
     if not legal_moves:
-        return heuristic(game, ai_player), None
+        return terminal_value(game, ai_player, heuristic), None
     
     if player == ai_player:
         best_value = float('-inf')
