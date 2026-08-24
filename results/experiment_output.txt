@@ -1,0 +1,121 @@
+==========================================================================================
+ADVERSARIAL SEARCH - MANCALA - Assignment 3 Experiment Report
+==========================================================================================
+Generated: 2026-08-24 09:20:56
+Platform: Mancala 6 pits per side, 4 stones each, 48 total
+Algorithms: Minimax, Alpha-Beta Pruning, Iterative Deepening, Move Ordering
+Heuristics: h1..h4 per spec + h5, h6 (own heuristics)
+Default Depth: 3 | Games per pair: 100 | Mode: FULL
+==========================================================================================
+
+========== HEURISTIC COMPARISON (single state, depth=3) ==========
+Depth: 3  |  AI Player: 0
+Board start: [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
+
+heuristic    | minimax move |     eval |  nodes || AB move |     eval |  nodes | reduction | match
+--------------------------------------------------------------------------------------------------------------
+heuristic_1  |            2 |        1 |    227 ||       2 |        1 |     92 |     59.5% | OK
+heuristic_2  |            2 |      0.5 |    227 ||       2 |      0.5 |     92 |     59.5% | OK
+heuristic_3  |            2 |      0.5 |    227 ||       2 |      0.5 |     92 |     59.5% | OK
+heuristic_4  |            2 |      0.5 |    227 ||       2 |      0.5 |     92 |     59.5% | OK
+heuristic_5  |            2 | 0.7000000000000001 |    227 ||       2 | 0.7000000000000001 |    102 |     55.1% | OK
+heuristic_6  |            5 | 7.016666666666667 |    227 ||       5 | 7.016666666666667 |    178 |     21.6% | OK
+
+========== MOVE ORDERING ABLATION (alpha-beta, heuristic_1) ==========
+Heuristic: heuristic_1 (store diff) | Player: 0
+
+========== MOVE ORDERING ABLATION (alpha-beta) ==========
+Heuristic: heuristic_1
+depth | no-order nodes | ordered nodes | reduction | move plain | move ord
+---------------------------------------------------------------------------
+    1 |              7 |             7 |      0.0% |          2 |        2
+    2 |             24 |            17 |     29.2% |          2 |        2
+    3 |             92 |            32 |     65.2% |          2 |        2
+    4 |            390 |           116 |     70.3% |          5 |        5
+    5 |           1042 |           287 |     72.5% |          2 |        2
+    6 |           3786 |           794 |     79.0% |          5 |        5
+
+========== ITERATIVE DEEPENING (heuristic_1) ==========
+
+========== ITERATIVE DEEPENING vs ALPHA-BETA ==========
+depth 1: AB  move=2 eval=1 nodes=    7 time=0.0ms | IDS move=2 eval=1 nodes=    7 time=0.0ms | same_move=YES
+depth 2: AB  move=2 eval=2 nodes=   24 time=0.1ms | IDS move=2 eval=2 nodes=   49 time=0.1ms | same_move=YES
+depth 3: AB  move=2 eval=1 nodes=   92 time=0.3ms | IDS move=2 eval=1 nodes=  276 time=0.5ms | same_move=YES
+depth 4: AB  move=5 eval=1 nodes=  390 time=0.8ms | IDS move=5 eval=1 nodes= 1445 time=2.1ms | same_move=YES
+
+==========================================================================================
+EXPERIMENT 4: HEURISTIC TOURNAMENT - 100 GAMES PER PAIR
+==========================================================================================
+Method: Alpha-Beta, Depth=3, move ordering on, alternate first mover, random ties enabled
+
+========== HEURISTIC TOURNAMENT ==========
+Games per unordered pair: 100  |  Depth: 3  |  Move ordering: True | Random ties: True
+
+h1 vs h2  ->  h1: 32 (32.0%) | h2: 61 (61.0%) | draws: 7 | avg moves: 43.3
+h1 vs h3  ->  h1: 38 (38.0%) | h3: 53 (53.0%) | draws: 9 | avg moves: 44.3
+h1 vs h4  ->  h1: 49 (49.0%) | h4: 42 (42.0%) | draws: 9 | avg moves: 41.0
+h1 vs h5  ->  h1: 26 (26.0%) | h5: 64 (64.0%) | draws: 10 | avg moves: 44.3
+h1 vs h6  ->  h1: 37 (37.0%) | h6: 59 (59.0%) | draws: 4 | avg moves: 40.6
+h2 vs h3  ->  h2: 54 (54.0%) | h3: 42 (42.0%) | draws: 4 | avg moves: 43.4
+h2 vs h4  ->  h2: 51 (51.0%) | h4: 45 (45.0%) | draws: 4 | avg moves: 43.6
+h2 vs h5  ->  h2: 39 (39.0%) | h5: 40 (40.0%) | draws: 21 | avg moves: 43.5
+h2 vs h6  ->  h2: 46 (46.0%) | h6: 42 (42.0%) | draws: 12 | avg moves: 34.9
+h3 vs h4  ->  h3: 47 (47.0%) | h4: 47 (47.0%) | draws: 6 | avg moves: 41.3
+h3 vs h5  ->  h3: 28 (28.0%) | h5: 57 (57.0%) | draws: 15 | avg moves: 43.5
+h3 vs h6  ->  h3: 44 (44.0%) | h6: 45 (45.0%) | draws: 11 | avg moves: 36.2
+h4 vs h5  ->  h4: 32 (32.0%) | h5: 56 (56.0%) | draws: 12 | avg moves: 43.4
+h4 vs h6  ->  h4: 48 (48.0%) | h6: 47 (47.0%) | draws: 5 | avg moves: 35.5
+h5 vs h6  ->  h5: 42 (42.0%) | h6: 49 (49.0%) | draws: 9 | avg moves: 42.4
+
+Summary matrix (wins for row vs column):
+            h1      h2      h3      h4      h5      h6
+  h1        -      32      38      49      26      37
+  h2       61       -      54      51      39      46
+  h3       53      42       -      47      28      44
+  h4       42      45      47       -      32      48
+  h5       64      40      57      56       -      42
+  h6       59      42      45      47      49       -
+
+Overall ranking:
+  h5: wins=259  losses=174  draws= 67  win%=51.8%  (total 500 games)
+  h2: wins=251  losses=201  draws= 48  win%=50.2%  (total 500 games)
+  h6: wins=242  losses=217  draws= 41  win%=48.4%  (total 500 games)
+  h3: wins=214  losses=241  draws= 45  win%=42.8%  (total 500 games)
+  h4: wins=214  losses=250  draws= 36  win%=42.8%  (total 500 games)
+  h1: wins=182  losses=279  draws= 39  win%=36.4%  (total 500 games)
+
+BEST HEURISTIC (by total wins): h5
+
+
+========== DEPTH LIMIT VARIATION ==========
+
+========== DEPTH VARIATION EXPERIMENT ==========
+Games per depth pair: 20
+
+Heuristic h1:
+  depth=1: nodes no-order=    7  ordered=    7  reduction=  0.0%
+  depth=2: nodes no-order=   24  ordered=   17  reduction= 29.2%
+  depth=3: nodes no-order=   92  ordered=   32  reduction= 65.2%
+  depth=4: nodes no-order=  390  ordered=  116  reduction= 70.3%
+  depth=5: nodes no-order= 1042  ordered=  287  reduction= 72.5%
+
+-- Depth advantage: h1 depth=2 vs depth=4 --
+  h1 d=2 vs h1 d=4 -> d2:6 | d4:13 | draws:1 | avg_moves:43.1
+
+==========================================================================================
+EXPERIMENT 6: TIMING / SEARCH EFFICIENCY
+==========================================================================================
+========== TIMING / NODES ==========
+minimax              depth=4 move=5 eval=1 nodes= 1169 time=2.13ms
+alpha_beta_no_order  depth=4 move=5 eval=1 nodes=  390 time=0.80ms
+alpha_beta_order     depth=4 move=5 eval=1 nodes=  116 time=0.64ms
+
+========== TIMING / NODES ==========
+minimax              depth=4 move=5 eval=1.2999999999999998 nodes= 1169 time=3.36ms
+alpha_beta_no_order  depth=4 move=5 eval=1.2999999999999998 nodes=  450 time=2.60ms
+alpha_beta_order     depth=4 move=5 eval=1.2999999999999998 nodes=  165 time=2.44ms
+
+==========================================================================================
+Output saved to: results/experiment_output.txt
+CSV saved to: results/tournament_results.csv
+==========================================================================================
